@@ -15,9 +15,7 @@ else
   gem 'solidus_frontend', github: 'solidusio/solidus', branch: branch
 end
 
-# Needed to help Bundler figure out how to resolve dependencies,
-# otherwise it takes forever to resolve them.
-# See https://github.com/bundler/bundler/issues/6677
+rails_version = ENV.fetch('RAILS_VERSION', '~> 7.0')
 gem 'rails', '>0.a'
 
 # Provides basic authentication functionality for testing parts of your engine
@@ -29,7 +27,13 @@ when 'mysql'
 when 'postgresql'
   gem 'pg'
 else
-  gem 'sqlite3'
+  sqlite_version = if Gem::Requirement.new(rails_version).requirements[0][1] < Gem::Version.new(7.2)
+                     "~> 1.4"
+                   else
+                     "~> 2.0"
+                   end
+
+  gem 'sqlite3', sqlite_version
 end
 
 gemspec
