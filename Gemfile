@@ -16,10 +16,7 @@ else
 end
 
 rails_version = ENV.fetch('RAILS_VERSION', '~> 7.0')
-gem 'rails', '>0.a'
-
-# Provides basic authentication functionality for testing parts of your engine
-gem 'solidus_auth_devise'
+gem 'rails', rails_version
 
 case ENV['DB']
 when 'mysql'
